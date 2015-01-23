@@ -10,9 +10,9 @@ package mysql
 
 import (
 	//     "fmt"
-	"mydoraemon/golib/bizerror"
-	"mydoraemon/golib/bizlog"
-	"mydoraemon/golib/tool/executor"
+	"github.com/mydoraemon/golib/bizerror"
+	"github.com/mydoraemon/golib/bizlog"
+	"github.com/mydoraemon/golib/tool/executor"
 	"strconv"
 	"strings"
 )

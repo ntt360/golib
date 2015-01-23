@@ -9,7 +9,7 @@
 package mysql
 
 import (
-	"mydoraemon/golib/bizlog"
+	"github.com/mydoraemon/golib/bizlog"
 	"testing"
 )
 

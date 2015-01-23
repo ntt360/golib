@@ -12,7 +12,7 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
-	"mydoraemon/golib/bizlog"
+	"github.com/mydoraemon/golib/bizlog"
 	"strings"
 )
 

@@ -10,8 +10,8 @@ package bizlog
 
 import (
 	//     "fmt"
-	"mydoraemon/golib/bizerror"
-	"mydoraemon/golib/tool"
+	"github.com/mydoraemon/golib/bizerror"
+	"github.com/mydoraemon/golib/tool"
 )
 
 var _log_root string

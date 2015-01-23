@@ -9,7 +9,7 @@
 package bizlog
 
 import (
-	"mydoraemon/golib/biztime"
+	"github.com/mydoraemon/golib/biztime"
 )
 
 type i_msg_formater interface {

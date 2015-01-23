@@ -10,8 +10,8 @@ package executor
 
 import (
 	"fmt"
-	"mydoraemon/golib/bizlog"
-	"mydoraemon/golib/dao"
+	"github.com/mydoraemon/golib/bizlog"
+	"github.com/mydoraemon/golib/dao"
 	"testing"
 )
 

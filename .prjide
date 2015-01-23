@@ -1,0 +1,44 @@
+golib=$PWD {
+ README.md
+ bizerror=bizerror {
+  bizerror.go
+ }
+ bizlog=bizlog {
+  bizlog.go
+  bizlog_test.go
+  conf.go
+  const.go
+  formater.go
+  logger.go
+  routine.go
+  writer.go
+ }
+ biztime=biztime {
+  biztime.go
+ }
+ dao=dao {
+  mysql=mysql {
+   const.go
+   mysql.go
+   mysql_test.go
+  }
+ }
+ routine=routine {
+  routine.go
+ }
+ tool=tool {
+  tool.go
+  executor=executor {
+   mysql.go
+   mysql_test.go
+  }
+  http=http {
+   client.go
+   client_test.go
+  }
+  shell=shell {
+   shell.go
+   shell_test.go
+  }
+ }
+}
