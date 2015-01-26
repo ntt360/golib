@@ -14,6 +14,6 @@ import (
 )
 
 func TestRun(t *testing.T) {
-	result := RunCmd("lsa")
+	result := RunCmd("ls -l")
 	fmt.Println(result)
 }

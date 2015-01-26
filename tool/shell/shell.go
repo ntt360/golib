@@ -13,6 +13,7 @@ import (
 	"os"
 	"os/exec"
 	"os/user"
+	"strconv"
 	"strings"
 )
 
@@ -80,8 +81,9 @@ func RunAsUser(cmd_str string, username string) *T_Shell_Result {
 *
 * @return
  */
-func Rsync(host string, sou string, dst string, exclude_from string, ssh_user string) *T_Shell_Result {
-	rsync_cmd := "/usr/bin/rsync -av -e 'ssh -o StrictHostKeyChecking=no -o ConnectTimeout=5' --timeout=5 --update "
+func Rsync(host string, sou string, dst string, exclude_from string, ssh_user string, timeout int) *T_Shell_Result {
+	to := strconv.Itoa(timeout)
+	rsync_cmd := "/usr/bin/rsync -av -e 'ssh -o StrictHostKeyChecking=no -o ConnectTimeout=" + to + "' --timeout=" + to + " --update "
 	_, err := os.Stat(exclude_from)
 	if nil == err {
 		rsync_cmd += "--exclude-from='" + exclude_from + "' "
