@@ -11,40 +11,38 @@ package executor
 import (
 	"fmt"
 	"github.com/mydoraemon/golib/bizlog"
-	"github.com/mydoraemon/golib/dao"
 	"testing"
 )
 
 func init() {
 	bizlog.Init("/home/ligang/devspace/golib/logs")
-	bizlog.NewLogger("mysql", bizlog.MODE_SYNC, "", bizlog.SPLIT_BY_DAY, 0, bizlog.MSG_FMT_LINE_HEADER)
+	bizlog.NewLogger("test", bizlog.MODE_SYNC, "", bizlog.SPLIT_BY_DAY, 0, bizlog.MSG_FMT_LINE_HEADER)
 }
 
 func TestQuery(t *testing.T) {
 	executor := getExecutor()
-	sql := "select * from sync_status where role = ?"
-	values := []interface{}{2}
+	sql := "select * from test where id = ?"
 
-	rows := executor.Query(sql, values...)
+	rows, err := executor.Query(sql, 8)
+	fmt.Println(err)
 	for rows.Next() {
-		item := new(dao.T_Sync_Status)
-		rows.Scan(&item.Id, &item.Host, &item.Idc, &item.Role, &item.Status, &item.Last_Term)
-		fmt.Println(item)
+		var id int
+		rows.Scan(&id)
+		fmt.Println(id)
 	}
 }
 
 func TestExec(t *testing.T) {
 	executor := getExecutor()
-	sql := "update sync_status set role = ? where id = ?"
-	values := []interface{}{2, 1}
+	sql := "update test set id = ? where id = ?"
 
-	result := executor.Exec(sql, values...)
+	result, err := executor.Exec(sql, 8, 8)
+	fmt.Println(err)
 	fmt.Println(result.RowsAffected())
 }
 
 func getExecutor() *T_Mysql_Executor {
-	mysql_conf := config.GetMysqlConf()
-	conf := T_Mysql_Conf{
+	mysql_conf := T_Mysql_Conf{
 		Host: "127.0.0.1",
 		User: "root",
 		Pass: "123",
@@ -52,5 +50,5 @@ func getExecutor() *T_Mysql_Executor {
 		Name: "test",
 	}
 
-	return NewMysqlExecutor("test", conf, bizlog.GetLogger("test"))
+	return NewMysqlExecutor("test", mysql_conf, bizlog.GetLogger("test"))
 }

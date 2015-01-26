@@ -10,7 +10,7 @@ package mysql
 
 import (
 	//     "fmt"
-	"github.com/mydoraemon/golib/bizerror"
+	"errors"
 	"github.com/mydoraemon/golib/bizlog"
 	"github.com/mydoraemon/golib/tool/executor"
 	"strconv"
@@ -31,9 +31,9 @@ func NewBaseDao(key string, mysql_conf executor.T_Mysql_Conf, logger bizlog.I_Lo
 	}
 }
 
-func (dao *T_Base_Dao) UpdateById(table string, id int, cols []string, values ...interface{}) (int64, *bizerror.T_Error) {
+func (dao *T_Base_Dao) UpdateById(table string, id int, cols []string, values ...interface{}) (int64, error) {
 	if 0 == len(cols) {
-		return 0, bizerror.NewError(bizerror.E_SYS_MISC, "invalid cols")
+		return 0, errors.New("invalid cols")
 	}
 
 	sql := "update " + table + " set"
@@ -45,7 +45,7 @@ func (dao *T_Base_Dao) UpdateById(table string, id int, cols []string, values ..
 
 	result, err := dao.Executor.Exec(sql, values...)
 	if nil != err {
-		return 0, bizerror.NewError(bizerror.E_SYS_MISC, err.Error())
+		return 0, err
 	}
 
 	affected, _ := result.RowsAffected()
