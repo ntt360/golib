@@ -9,6 +9,7 @@
 package bizlog
 
 import (
+	//     "fmt"
 	"sync"
 )
 
@@ -41,10 +42,17 @@ func (logger *t_base_logger) Flush() {
 	logger.lock.Unlock()
 }
 
+/**
+* @brief async logger call this func will lose log_msg when there have log_msg in log_queue
+*
+* @param
+ */
 func (logger *t_base_logger) Free() {
 	logger.lock.Lock()
 	logger.writer.free()
 	logger.lock.Unlock()
+
+	_logger_container[logger.key] = nil
 }
 
 func (logger *t_base_logger) writeMsg(msg string) {

@@ -9,8 +9,8 @@
 package bizlog
 
 import (
+	"errors"
 	//     "fmt"
-	"github.com/mydoraemon/golib/bizerror"
 	"github.com/mydoraemon/golib/tool"
 )
 
@@ -23,9 +23,9 @@ var _log_root string
 *
 * @return
  */
-func Init(log_root string) *bizerror.T_Error {
+func Init(log_root string) error {
 	if !tool.DirExist(log_root) {
-		return bizerror.NewError(bizerror.E_CONFIG_INVALID_LOG_ROOT, "log root not exists or not dir")
+		return errors.New("log root not exists or not dir")
 	}
 
 	_log_root = log_root

@@ -33,7 +33,10 @@ func startLogRoutine() {
 		for {
 			select {
 			case async_log_msg, _ := <-_log_queue:
-				GetLogger(async_log_msg.key).writeMsg(async_log_msg.msg)
+				logger := GetLogger(async_log_msg.key)
+				if nil != logger {
+					logger.writeMsg(async_log_msg.msg)
+				}
 			case <-_end_log:
 				freeLogQueue()
 				_end_log <- routine.ROUTINE_DONE
