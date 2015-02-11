@@ -1,2 +1,2 @@
 # golib
-common lib fo go
+common lib for go
