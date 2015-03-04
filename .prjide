@@ -1,5 +1,8 @@
 golib=$PWD {
  README.md
+ bizerror=bizerror {
+  bizerror.go
+ }
  bizlog=bizlog {
   bizlog.go
   bizlog_test.go
