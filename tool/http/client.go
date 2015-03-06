@@ -16,18 +16,16 @@ import (
 	"time"
 )
 
-type t_http_response struct {
-	code     int
-	contents string
+type T_Http_Response struct {
+	Code     int
+	Contents string
 }
 
 type t_http_client struct {
 	client   *http.Client
 	request  *http.Request
-	response *t_http_response
+	response *T_Http_Response
 }
-
-var _http_client *t_http_client
 
 /**
 * @brief http get
@@ -39,33 +37,23 @@ var _http_client *t_http_client
 *
 * @return
  */
-func Get(rawurl string, timeout string, retry int, ip string) (string, error) {
-	http_client := getHttpClient()
+func Get(rawurl string, timeout string, retry int, ip string) (*T_Http_Response, error) {
+	http_client := newHttpClient()
 	err := http_client.prepareRequest("GET", rawurl, timeout, ip)
 	if nil != err {
-		return "", err
+		return nil, err
 	}
 
 	err = http_client.do(retry)
-	return http_client.response.contents, err
+	return http_client.response, err
 }
 
-/**
-* @brief 200、50x and so on
-*
-* @return
- */
-func GetHttpCode() int {
-	return getHttpClient().response.code
-}
+func newHttpClient() *t_http_client {
+	http_client := new(t_http_client)
+	http_client.client = new(http.Client)
+	http_client.response = new(T_Http_Response)
 
-func getHttpClient() *t_http_client {
-	if nil == _http_client {
-		_http_client = new(t_http_client)
-		_http_client.client = new(http.Client)
-		_http_client.response = new(t_http_response)
-	}
-	return _http_client
+	return http_client
 }
 
 func (http_client *t_http_client) prepareRequest(method string, rawurl string, timeout string, ip string) error {
@@ -108,12 +96,12 @@ func (http_client *t_http_client) do(retry int) error {
 		return err
 	}
 
-	http_client.response.code = response.StatusCode
+	http_client.response.Code = response.StatusCode
 	body, errb := ioutil.ReadAll(response.Body)
 	if nil != errb {
 		return errb
 	}
 
-	http_client.response.contents = string(body)
+	http_client.response.Contents = string(body)
 	return nil
 }

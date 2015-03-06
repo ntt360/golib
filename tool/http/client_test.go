@@ -13,6 +13,8 @@ import (
 )
 
 func TestQuery(t *testing.T) {
-	contents, _ := Get("http://www.job360.com/test.php", "3s", 3, "127.0.0.1")
-	println(contents)
+	response, _ := Get("http://www.vbox.com/index.php", "3s", 3, "127.0.0.1")
+
+	println(response.Contents)
+	println(response.Code)
 }
