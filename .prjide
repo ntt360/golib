@@ -23,22 +23,24 @@ golib=$PWD {
    mysql_test.go
   }
  }
- routine=routine {
-  routine.go
- }
- tool=tool {
-  tool.go
-  executor=executor {
+ executor=executor {
+  mysql=mysql {
    mysql.go
    mysql_test.go
   }
-  http=http {
-   client.go
-   client_test.go
-  }
-  shell=shell {
-   shell.go
-   shell_test.go
-  }
+ }
+ http=http {
+  client.go
+  client_test.go
+ }
+ routine=routine {
+  routine.go
+ }
+ shell=shell {
+  shell.go
+  shell_test.go
+ }
+ tool=tool {
+  tool.go
  }
 }

@@ -12,7 +12,7 @@ import (
 	//     "fmt"
 	"errors"
 	"github.com/mydoraemon/golib/bizlog"
-	"github.com/mydoraemon/golib/tool/executor"
+	executor "github.com/mydoraemon/golib/executor/mysql"
 	"strconv"
 	"strings"
 )

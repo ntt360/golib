@@ -10,7 +10,7 @@ package mysql
 
 import (
 	"github.com/mydoraemon/golib/bizlog"
-	"github.com/mydoraemon/golib/tool/executor"
+	executor "github.com/mydoraemon/golib/executor/mysql"
 	"testing"
 )
 
