@@ -10,20 +10,48 @@ package redis
 
 import (
 	"fmt"
-	"strconv"
 	"testing"
 )
 
+/**
+* @name string
+* @{ */
+
 func TestSet(t *testing.T) {
-	err := getExecutor().Set("abc", strconv.Itoa(1234))
-	err = getExecutor().Set("abc", "hello")
-	fmt.Println(err)
+	executor := getExecutor()
+	executor.Set("abc", "hello")
 }
 
 func TestGet(t *testing.T) {
 	value, err, exist := getExecutor().Get("abc")
 	fmt.Println(value, err, exist)
 }
+
+/**  @} */
+
+/**
+* @name set
+* @{ */
+
+func TestSadd(t *testing.T) {
+	executor := getExecutor()
+	executor.Sadd("tset1", "vbox01", "vbox02")
+	executor.Sadd("tset2", "vbox03", "vbox04")
+}
+
+func TestSmembers(t *testing.T) {
+	executor := getExecutor()
+	values, err, exist := executor.Smembers("tset1")
+	fmt.Println(values, err, exist)
+}
+
+func TestSunion(t *testing.T) {
+	executor := getExecutor()
+	values, err, exist := executor.Sunion("tset1", "tset2")
+	fmt.Println(values, err, exist)
+}
+
+/**  @} */
 
 func getExecutor() *T_Redis_Executor {
 	redis_conf := T_Redis_Conf{

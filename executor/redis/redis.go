@@ -47,6 +47,16 @@ func NewExecutor(redis_conf T_Redis_Conf) (*T_Redis_Executor, error) {
 }
 
 /**
+* @name string
+* @{ */
+
+func (executor *T_Redis_Executor) Set(key string, value string) error {
+	_, err := executor.conn.Do("SET", key, value)
+
+	return err
+}
+
+/**
 * @brief get string
 *
 * @param key string
@@ -56,27 +66,55 @@ func NewExecutor(redis_conf T_Redis_Conf) (*T_Redis_Executor, error) {
 func (executor *T_Redis_Executor) Get(key string) (string, error, bool) {
 	reply, err := executor.conn.Do("GET", key)
 
-	if nil != err {
+	if nil != err || nil == reply {
 		return "", err, false
-	}
-	if nil == reply {
-		return "", nil, false
 	}
 
 	value, err := redigo.String(reply, err)
 	return value, err, true
 }
 
+/**  @} */
+
 /**
-* @brief set string
-*
-* @param key string
-* @param value string
-*
-* @return error
- */
-func (executor *T_Redis_Executor) Set(key string, value string) error {
-	_, err := executor.conn.Do("SET", key, value)
+* @name set
+* @{ */
+
+func (executor *T_Redis_Executor) Sadd(key string, values ...string) error {
+	args := make([]interface{}, 0, len(values)+1)
+	args = append(args, key)
+	for _, v := range values {
+		args = append(args, v)
+	}
+	_, err := executor.conn.Do("SADD", args...)
 
 	return err
 }
+
+func (executor *T_Redis_Executor) Smembers(key string) ([]string, error, bool) {
+	reply, err := executor.conn.Do("SMEMBERS", key)
+
+	if nil != err || nil == reply {
+		return []string{}, err, false
+	}
+
+	values, err := redigo.Strings(reply, err)
+	return values, err, true
+}
+
+func (executor *T_Redis_Executor) Sunion(keys ...string) ([]string, error, bool) {
+	args := make([]interface{}, 0, len(keys))
+	for _, k := range keys {
+		args = append(args, k)
+	}
+	reply, err := executor.conn.Do("SUNION", args...)
+
+	if nil != err || nil == reply {
+		return []string{}, err, false
+	}
+
+	values, err := redigo.Strings(reply, err)
+	return values, err, true
+}
+
+/**  @} */
