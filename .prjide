@@ -28,6 +28,11 @@ golib=$PWD {
    mysql.go
    mysql_test.go
   }
+  redis=redis {
+   redis.go
+   const.go
+   redis_test.go
+  }
  }
  http=http {
   client.go
