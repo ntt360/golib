@@ -20,6 +20,7 @@ import (
 func TestSet(t *testing.T) {
 	executor := getExecutor()
 	executor.Set("abc", "hello")
+	executor.Pexpire("abc", 10*1000)
 }
 
 func TestGet(t *testing.T) {
@@ -37,6 +38,9 @@ func TestSadd(t *testing.T) {
 	executor := getExecutor()
 	executor.Sadd("tset1", "vbox01", "vbox02")
 	executor.Sadd("tset2", "vbox03", "vbox04")
+
+	executor.Expire("tset1", 10)
+	executor.Pexpire("tset2", 10*1000)
 }
 
 func TestSmembers(t *testing.T) {
@@ -49,6 +53,18 @@ func TestSunion(t *testing.T) {
 	executor := getExecutor()
 	values, err, exist := executor.Sunion("tset1", "tset2")
 	fmt.Println(values, err, exist)
+}
+
+func TestDel(t *testing.T) {
+	executor := getExecutor()
+	err := executor.Del("abc")
+	fmt.Println(err)
+}
+
+func TestRename(t *testing.T) {
+	executor := getExecutor()
+	err := executor.Rename("tset2", "tset1")
+	fmt.Println(err)
 }
 
 /**  @} */

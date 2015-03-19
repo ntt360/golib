@@ -32,6 +32,9 @@ golib=$PWD {
    redis.go
    const.go
    redis_test.go
+   strings.go
+   sets.go
+   keys.go
   }
  }
  http=http {
