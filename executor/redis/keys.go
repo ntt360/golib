@@ -9,17 +9,22 @@
 package redis
 
 import (
-//     "fmt"
+	//     "fmt"
+	"strconv"
 )
 
 func (executor *T_Redis_Executor) Expire(key string, expire int) error {
-	_, err := executor.conn.Do("EXPIRE", key, expire)
+	cmd := "EXPIRE"
+	executor.logDo(cmd, key, strconv.Itoa(expire))
+	_, err := executor.conn.Do(cmd, key, expire)
 
 	return err
 }
 
 func (executor *T_Redis_Executor) Pexpire(key string, pexpire int) error {
-	_, err := executor.conn.Do("PEXPIRE", key, pexpire)
+	cmd := "PEXPIRE"
+	executor.logDo(cmd, key, strconv.Itoa(pexpire))
+	_, err := executor.conn.Do(cmd, key, pexpire)
 
 	return err
 }
@@ -29,13 +34,18 @@ func (executor *T_Redis_Executor) Del(keys ...string) error {
 	for _, k := range keys {
 		args = append(args, k)
 	}
-	_, err := executor.conn.Do("DEL", args...)
+
+	cmd := "DEL"
+	executor.logDo(cmd, keys...)
+	_, err := executor.conn.Do(cmd, args...)
 
 	return err
 }
 
 func (executor *T_Redis_Executor) Rename(old_key string, new_key string) error {
-	_, err := executor.conn.Do("RENAME", old_key, new_key)
+	cmd := "RENAME"
+	executor.logDo(cmd, old_key, new_key)
+	_, err := executor.conn.Do(cmd, old_key, new_key)
 
 	return err
 }

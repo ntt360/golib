@@ -14,18 +14,25 @@ import (
 )
 
 func (executor *T_Redis_Executor) Sadd(key string, values ...string) error {
+	args_str := key
 	args := make([]interface{}, 0, len(values)+1)
 	args = append(args, key)
 	for _, v := range values {
+		args_str += " " + v
 		args = append(args, v)
 	}
-	_, err := executor.conn.Do("SADD", args...)
+
+	cmd := "SADD"
+	executor.logDo(cmd, args_str)
+	_, err := executor.conn.Do(cmd, args...)
 
 	return err
 }
 
 func (executor *T_Redis_Executor) Smembers(key string) ([]string, error, bool) {
-	reply, err := executor.conn.Do("SMEMBERS", key)
+	cmd := "SMEMBERS"
+	executor.logDo(cmd, key)
+	reply, err := executor.conn.Do(cmd, key)
 
 	if nil != err || nil == reply {
 		return []string{}, err, false
@@ -40,7 +47,10 @@ func (executor *T_Redis_Executor) Sunion(keys ...string) ([]string, error, bool)
 	for _, k := range keys {
 		args = append(args, k)
 	}
-	reply, err := executor.conn.Do("SUNION", args...)
+
+	cmd := "SUNION"
+	executor.logDo(cmd, keys...)
+	reply, err := executor.conn.Do(cmd, args...)
 
 	if nil != err || nil == reply {
 		return []string{}, err, false

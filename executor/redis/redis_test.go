@@ -10,8 +10,14 @@ package redis
 
 import (
 	"fmt"
+	"github.com/mydoraemon/golib/bizlog"
 	"testing"
 )
+
+func init() {
+	bizlog.Init("/home/ligang/devspace/golib/logs")
+	bizlog.NewLogger("test", bizlog.MODE_SYNC, "", bizlog.SPLIT_BY_DAY, 0, bizlog.MSG_FMT_LINE_HEADER)
+}
 
 /**
 * @name string
@@ -76,6 +82,6 @@ func getExecutor() *T_Redis_Executor {
 		Pass: "123",
 	}
 
-	executor, _ := NewExecutor(redis_conf)
+	executor, _ := NewExecutor(redis_conf, bizlog.GetLogger("test"))
 	return executor
 }

@@ -11,6 +11,8 @@ package redis
 import (
 	//     "fmt"
 	redigo "github.com/garyburd/redigo/redis"
+	"github.com/mydoraemon/golib/bizlog"
+	"strings"
 	"time"
 )
 
@@ -21,10 +23,11 @@ type T_Redis_Conf struct {
 }
 
 type T_Redis_Executor struct {
-	conn redigo.Conn
+	conn   redigo.Conn
+	logger bizlog.I_Logger
 }
 
-func NewExecutor(redis_conf T_Redis_Conf) (*T_Redis_Executor, error) {
+func NewExecutor(redis_conf T_Redis_Conf, logger bizlog.I_Logger) (*T_Redis_Executor, error) {
 	executor := new(T_Redis_Executor)
 
 	address := redis_conf.Host + ":" + redis_conf.Port
@@ -37,11 +40,26 @@ func NewExecutor(redis_conf T_Redis_Conf) (*T_Redis_Executor, error) {
 		return nil, err
 	}
 
-	executor.conn = conn
-	_, err = executor.conn.Do("AUTH", redis_conf.Pass)
+	_, err = conn.Do("AUTH", redis_conf.Pass)
 	if nil != err {
 		return nil, err
 	}
 
+	executor.conn = conn
+	executor.logger = logger
+
 	return executor, nil
+}
+
+func (executor *T_Redis_Executor) Close() error {
+	return executor.conn.Close()
+}
+
+func (executor *T_Redis_Executor) logDo(cmd string, args ...string) {
+	if nil == executor.logger {
+		return
+	}
+
+	msg := cmd + " " + strings.Join(args, " ")
+	executor.logger.Log(msg)
 }

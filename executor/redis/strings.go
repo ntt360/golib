@@ -14,7 +14,9 @@ import (
 )
 
 func (executor *T_Redis_Executor) Set(key string, value string) error {
-	_, err := executor.conn.Do("SET", key, value)
+	cmd := "SET"
+	executor.logDo(cmd, key, value)
+	_, err := executor.conn.Do(cmd, key, value)
 
 	return err
 }
@@ -27,7 +29,9 @@ func (executor *T_Redis_Executor) Set(key string, value string) error {
 * @return value, error, exist
  */
 func (executor *T_Redis_Executor) Get(key string) (string, error, bool) {
-	reply, err := executor.conn.Do("GET", key)
+	cmd := "GET"
+	executor.logDo(cmd, key)
+	reply, err := executor.conn.Do(cmd, key)
 
 	if nil != err || nil == reply {
 		return "", err, false
