@@ -58,6 +58,21 @@ func (this *T_Controller) NotFound(writer http.ResponseWriter, request *http.Req
 	http.Error(writer, "404 not found", http.StatusNotFound)
 }
 
+// TODO init controller
+func (this *T_Controller) Init() {
+
+}
+
+// Before runs before request function execution.
+func (this *T_Controller) Before(writer http.ResponseWriter, request *http.Request) {
+
+}
+
+// After runs after request function execution.
+func (this *T_Controller) After(writer http.ResponseWriter, request *http.Request) {
+
+}
+
 //------------------------------
 // type T_NotFoundController
 //------------------------------
