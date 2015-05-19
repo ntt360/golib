@@ -9,16 +9,17 @@ import (
 const (
 	DEFAULT_CONTROLLER_NAME = "Index"
 	DEFAULT_ACTION_NAME     = "Index"
-	NOTfOUND_ACTION_NAME    = "NotFound"
+	NOTFOUND_ACTION_NAME    = "NotFound"
 
 	PATH_TRIM_STRING  = "/ "
 	PATH_SPLIT_STRING = "/"
 
 	EMPTY_STRING = ""
 
-	AUTO_CALL_METHOD_INIT   = "Init"
-	AUTO_CALL_METHOD_BEFORE = "Before"
-	AUTO_CALL_METHOD_AFTER  = "After"
+	AUTO_CALL_METHOD_INIT         = "Init"
+	AUTO_CALL_METHOD_BEFORE       = "Before"
+	AUTO_CALL_METHOD_AFTER        = "After"
+	AUTO_CALL_METHOD_UNINITIALIZE = "UnInitialize"
 )
 
 var (
@@ -87,24 +88,39 @@ func (this *T_Router) GetCurrentController() (c I_Controller) {
 }
 
 // dispatch request to matched action of controller
-// call method: Init -> Before -> ActionName -> After
+// call method: Init -> Before -> ActionName -> After -> UnInitialize
 func (this *T_Router) Dispatch(w http.ResponseWriter, r *http.Request) {
-	currentController := this.GetCurrentController()
 
-	reflectValue := reflect.ValueOf(currentController)
+	context := &T_Context{
+		Request:        r,
+		ResponseWriter: w,
 
-	param := []reflect.Value{reflect.ValueOf(w), reflect.ValueOf(r)}
-
-	method := reflectValue.MethodByName(this.ActionName)
-	if (reflect.Value{} == method) {
-		method = reflectValue.MethodByName(NOTfOUND_ACTION_NAME)
+		DisableView: true,
+		ViewName:    strings.ToLower(this.ControllerName + "_" + this.ActionName),
+		ViewData:    make(map[string]interface{}),
 	}
 
-	reflectValue.MethodByName(AUTO_CALL_METHOD_INIT).Call(nil)
-	reflectValue.MethodByName(AUTO_CALL_METHOD_BEFORE).Call(param)
-	method.Call(param)
-	reflectValue.MethodByName(AUTO_CALL_METHOD_AFTER).Call(param)
+	currentController := this.GetCurrentController()
+	controllerReflect := reflect.ValueOf(currentController)
 
+	param := []reflect.Value{reflect.ValueOf(context)}
+
+	method := controllerReflect.MethodByName(this.ActionName)
+	if (reflect.Value{} == method) {
+		method = controllerReflect.MethodByName(NOTFOUND_ACTION_NAME)
+	}
+
+	// call action
+	controllerReflect.MethodByName(AUTO_CALL_METHOD_INIT).Call(param)
+	controllerReflect.MethodByName(AUTO_CALL_METHOD_BEFORE).Call(param)
+	method.Call(param)
+	controllerReflect.MethodByName(AUTO_CALL_METHOD_AFTER).Call(param)
+	controllerReflect.MethodByName(AUTO_CALL_METHOD_UNINITIALIZE).Call(param)
+
+	// show view
+	if !context.DisableView {
+		ShowView(context)
+	}
 }
 
 // ServeHTTP method
