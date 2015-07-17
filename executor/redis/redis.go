@@ -40,9 +40,11 @@ func NewExecutor(redis_conf T_Redis_Conf, logger bizlog.I_Logger) (*T_Redis_Exec
 		return nil, err
 	}
 
-	_, err = conn.Do("AUTH", redis_conf.Pass)
-	if nil != err {
-		return nil, err
+	if "" != redis_conf.Pass {
+		_, err = conn.Do("AUTH", redis_conf.Pass)
+		if nil != err {
+			return nil, err
+		}
 	}
 
 	executor.conn = conn
