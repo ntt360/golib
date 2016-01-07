@@ -5,7 +5,7 @@ import (
 )
 
 func init() {
-	Init("/home/ligang/devspace/golib/logs")
+	Init("/tmp/bizlog")
 }
 
 func TestSyncLog(t *testing.T) {

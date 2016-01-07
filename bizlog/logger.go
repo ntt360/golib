@@ -10,6 +10,7 @@ package bizlog
 
 import (
 	//     "fmt"
+	"os"
 	"sync"
 )
 
@@ -66,10 +67,11 @@ func (logger *t_base_logger) writeMsg(msg string) {
 
 func (logger *t_base_logger) checkWriter() {
 	suffix := makeFileSuffix(logger.conf.split)
+	path := makeLogPath(logger.key, logger.conf.r_path, suffix)
 
-	if suffix != logger.conf.suffix {
-		path := makeLogPath(logger.key, logger.conf.r_path, suffix)
+	_, err := os.Stat(path)
 
+	if err != nil {
 		logger.lock.Lock()
 		logger.conf.suffix = suffix
 		logger.writer.free()
