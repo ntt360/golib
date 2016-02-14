@@ -95,7 +95,7 @@ func (this *T_Router) Dispatch(w http.ResponseWriter, r *http.Request) {
 		Request:        r,
 		ResponseWriter: w,
 
-		DisableView: true,
+		DisableView: false,
 		ViewName:    strings.ToLower(this.ControllerName + "_" + this.ActionName),
 		ViewData:    make(map[string]interface{}),
 	}

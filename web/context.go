@@ -17,11 +17,9 @@ type T_Context struct {
 }
 
 func (this *T_Context) AssignViewData(key string, value interface{}) {
-	this.DisableView = false
 	this.ViewData[key] = value
 }
 
 func (this *T_Context) SetViewName(name string) {
-	this.DisableView = false
 	this.ViewName = name
 }
