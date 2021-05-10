@@ -11,10 +11,11 @@ package mysql
 import (
 	//     "fmt"
 	"errors"
-	"github.com/mydoraemon/golib/bizlog"
-	executor "github.com/mydoraemon/golib/executor/mysql"
 	"strconv"
 	"strings"
+
+	"github.com/ntt360/golib/bizlog"
+	executor "github.com/ntt360/golib/executor/mysql"
 )
 
 type T_Base_Dao struct {

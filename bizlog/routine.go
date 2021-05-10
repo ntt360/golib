@@ -9,7 +9,7 @@
 package bizlog
 
 import (
-	"github.com/mydoraemon/golib/routine"
+	"github.com/ntt360/golib/routine"
 )
 
 type t_async_log_msg struct {

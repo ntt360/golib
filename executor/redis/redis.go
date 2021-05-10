@@ -10,10 +10,11 @@ package redis
 
 import (
 	//     "fmt"
-	redigo "github.com/garyburd/redigo/redis"
-	"github.com/mydoraemon/golib/bizlog"
 	"strings"
 	"time"
+
+	redigo "github.com/garyburd/redigo/redis"
+	"github.com/ntt360/golib/bizlog"
 )
 
 type T_Redis_Conf struct {

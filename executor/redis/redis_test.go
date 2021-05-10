@@ -10,8 +10,9 @@ package redis
 
 import (
 	"fmt"
-	"github.com/mydoraemon/golib/bizlog"
 	"testing"
+
+	"github.com/ntt360/golib/bizlog"
 )
 
 func init() {

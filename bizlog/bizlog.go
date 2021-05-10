@@ -11,7 +11,7 @@ package bizlog
 import (
 	"errors"
 	//     "fmt"
-	"github.com/mydoraemon/golib/tool"
+	"github.com/ntt360/golib/tool"
 )
 
 var _log_root string

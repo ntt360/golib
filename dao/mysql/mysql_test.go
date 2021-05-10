@@ -9,9 +9,10 @@
 package mysql
 
 import (
-	"github.com/mydoraemon/golib/bizlog"
-	executor "github.com/mydoraemon/golib/executor/mysql"
 	"testing"
+
+	"github.com/ntt360/golib/bizlog"
+	executor "github.com/ntt360/golib/executor/mysql"
 )
 
 func init() {

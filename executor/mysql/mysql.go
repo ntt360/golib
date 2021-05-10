@@ -11,9 +11,10 @@ package mysql
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
-	"github.com/mydoraemon/golib/bizlog"
 	"strings"
+
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/ntt360/golib/bizlog"
 )
 
 type T_Mysql_Conf struct {
